@@ -27,6 +27,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_36sdp"
 
+        app:seekBarIncrement="@integer/resolution_seekbar_increment"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,6 +94,8 @@
         android:layout_width="0dp"
         android:layout_height="@dimen/_36sdp"
 
+        app:seekBarIncrement="@integer/gyro_speed_seekbar_increment"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
         app:layout_constraintStart_toStartOf="parent"
@@ -126,6 +130,8 @@
         android:id="@+id/editMouseSpeed_seekbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/_36sdp"
+
+        app:seekBarIncrement="@integer/mouse_speed_seekbar_increment"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"
@@ -171,6 +177,8 @@
         android:id="@+id/editGestureDelay_seekbar"
         android:layout_width="0dp"
         android:layout_height="@dimen/_36sdp"
+
+        app:seekBarIncrement="@integer/gesture_delay_seekbar_increment"
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.538"

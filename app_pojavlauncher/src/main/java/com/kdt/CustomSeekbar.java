@@ -2,8 +2,13 @@ package com.kdt;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
 import android.widget.SeekBar;
+
+import androidx.annotation.Nullable;
+
+import net.kdt.pojavlaunch.R;
 
 /**
  * Seekbar with ability to handle ranges and increments
@@ -19,22 +24,22 @@ public class CustomSeekbar extends SeekBar {
 
     public CustomSeekbar(Context context) {
         super(context);
-        setup();
+        setup(null);
     }
 
     public CustomSeekbar(Context context, AttributeSet attrs) {
         super(context, attrs);
-        setup();
+        setup(attrs);
     }
 
     public CustomSeekbar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        setup();
+        setup(attrs);
     }
 
     public CustomSeekbar(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
-        setup();
+        setup(attrs);
     }
 
     public void setIncrement(int increment) {
@@ -75,7 +80,11 @@ public class CustomSeekbar extends SeekBar {
         mListener = l;
     }
 
-    public void setup() {
+    public void setup(@Nullable AttributeSet attrs) {
+        try (TypedArray attributes = getContext().obtainStyledAttributes(attrs, R.styleable.CustomSeekbar)) {
+            mIncrement = attributes.getInt(R.styleable.CustomSeekbar_seekBarIncrement, 1);
+        }
+
         super.setOnSeekBarChangeListener(new OnSeekBarChangeListener() {
             /** Store the previous progress to prevent double calls with increments */
             private int previousProgress = 0;
