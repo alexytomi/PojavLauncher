@@ -243,8 +243,8 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     @Override
     public void onAttachedToWindow() {
         // Post to get the correct display dimensions after layout.
+        LauncherPreferences.computeNotchSize(this);
         mControlLayout.post(()->{
-            LauncherPreferences.computeNotchSize(this);
             Tools.getDisplayMetrics(this);
             loadControls();
         });
