@@ -122,7 +122,6 @@ public abstract class QuickSettingSideDialog extends com.kdt.SideDialogView {
             mEditor.putBoolean("disableGestures", isChecked);
         });
 
-        mGyroSensitivityBar.setRange(25, 300);
         mGyroSensitivityBar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
             PREF_GYRO_SENSITIVITY = progress / 100f;
             mEditor.putInt("gyroSensitivity", progress);
@@ -131,7 +130,6 @@ public abstract class QuickSettingSideDialog extends com.kdt.SideDialogView {
         mGyroSensitivityBar.setProgress((int) (mOriginalGyroSensitivity * 100f));
         setSeekTextPercent(mGyroSensitivityText, mGyroSensitivityBar.getProgress());
 
-        mMouseSpeedBar.setRange(25, 300);
         mMouseSpeedBar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
             PREF_MOUSESPEED = progress / 100f;
             mEditor.putInt("mousespeed", progress);
@@ -140,7 +138,6 @@ public abstract class QuickSettingSideDialog extends com.kdt.SideDialogView {
         mMouseSpeedBar.setProgress((int) (mOriginalMouseSpeed * 100f));
         setSeekTextPercent(mMouseSpeedText, mMouseSpeedBar.getProgress());
 
-        mGestureDelayBar.setRange(100, 1000);
         mGestureDelayBar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
             PREF_LONGPRESS_TRIGGER = progress;
             mEditor.putInt("timeLongPressTrigger", progress);
@@ -149,7 +146,6 @@ public abstract class QuickSettingSideDialog extends com.kdt.SideDialogView {
         mGestureDelayBar.setProgress(mOriginalGestureDelay);
         setSeekTextMillisecond(mGestureDelayText, mGestureDelayBar.getProgress());
 
-        mResolutionBar.setRange(25, 100);
         mResolutionBar.setOnSeekBarChangeListener((SimpleSeekBarListener) (seekBar, progress, fromUser) -> {
             PREF_SCALE_FACTOR = progress/100f;
             mEditor.putInt("resolutionRatio", progress);

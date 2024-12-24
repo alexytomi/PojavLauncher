@@ -27,6 +27,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Process;
 import android.provider.DocumentsContract;
 import android.provider.OpenableColumns;
 import android.util.ArrayMap;
@@ -40,7 +41,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationManagerCompat;
@@ -538,7 +538,7 @@ public final class Tools {
         visibilityChangeListener.onSystemUiVisibilityChange(decorView.getSystemUiVisibility()); //call it once since the UI state may not change after the call, so the activity wont become fullscreen
     }
 
-    @RequiresApi(Build.VERSION_CODES.R)
+
     private static void setFullscreenSdk30(Activity activity, boolean fullscreen) {
         WindowInsetsControllerCompat windowInsetsController =
                 WindowCompat.getInsetsController(activity.getWindow(), activity.getWindow().getDecorView());
@@ -555,13 +555,18 @@ public final class Tools {
         ViewCompat.setOnApplyWindowInsetsListener(
                 activity.getWindow().getDecorView(),
                 (view, windowInsets) -> {
-                    if (fullscreen && !activity.isInMultiWindowMode()) {
+                    boolean fullscreenImpl = fullscreen;
+                    if (SDK_INT >= Build.VERSION_CODES.N && activity.isInMultiWindowMode())
+                        fullscreenImpl = false;
+
+                    if (fullscreenImpl) {
                         windowInsetsController.hide(WindowInsetsCompat.Type.systemBars());
-                        activity.getWindow().setDecorFitsSystemWindows(false);
                     } else {
                         windowInsetsController.show(WindowInsetsCompat.Type.systemBars());
-                        activity.getWindow().setDecorFitsSystemWindows(true);
                     }
+
+                    if(SDK_INT >= Build.VERSION_CODES.R)
+                        activity.getWindow().setDecorFitsSystemWindows(!fullscreenImpl);
 
                     return ViewCompat.onApplyWindowInsets(view, windowInsets);
                 });
@@ -569,11 +574,12 @@ public final class Tools {
     }
 
     public static void setFullscreen(Activity activity, boolean fullscreen) {
+        setFullscreenSdk30(activity, fullscreen);
+        /*
         if (SDK_INT >= Build.VERSION_CODES.R) {
-            setFullscreenSdk30(activity, fullscreen);
         }else {
             setFullscreenLegacy(activity, fullscreen);
-        }
+        }*/
     }
 
     public static DisplayMetrics currentDisplayMetrics;
@@ -1342,5 +1348,24 @@ public final class Tools {
                         Log.w(Tools.APP_NAME, "Could not enable System.exit() method!", th);
                     }
                 }).show();
+    }
+
+    public static void setThreadsPriority(int priority) {
+        Process.getThreadPriority(Process.myTid());
+
+
+
+        Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
+        for (Thread thread : threads.keySet()) {
+            //Log.d("Tools, thread: ", thread.getName());
+            Log.d("Tools, thread: ", thread + " group: " + thread.getThreadGroup());
+            Log.d("Tools, thread: ", Arrays.toString(thread.getStackTrace()));
+            Log.d("Tools, thread: ", String.valueOf(thread.getState()));
+            try {
+                thread.setPriority(priority);
+            }catch (Exception e) {
+                Log.e("Tools: thread", "Failed to set priority", e);
+            }
+        }
     }
 }

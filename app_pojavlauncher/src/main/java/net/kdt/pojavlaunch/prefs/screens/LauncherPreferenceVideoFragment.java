@@ -27,7 +27,6 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
 
         CustomSeekBarPreference resolutionSeekbar = requirePreference("resolutionRatio",
                 CustomSeekBarPreference.class);
-        resolutionSeekbar.setMin(25);
         resolutionSeekbar.setSuffix(" %");
 
         // #724 bug fix
