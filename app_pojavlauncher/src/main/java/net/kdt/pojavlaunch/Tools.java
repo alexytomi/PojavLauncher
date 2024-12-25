@@ -1314,23 +1314,4 @@ public final class Tools {
                     }
                 }).show();
     }
-
-    public static void setThreadsPriority(int priority) {
-        Process.getThreadPriority(Process.myTid());
-
-
-
-        Map<Thread, StackTraceElement[]> threads = Thread.getAllStackTraces();
-        for (Thread thread : threads.keySet()) {
-            //Log.d("Tools, thread: ", thread.getName());
-            Log.d("Tools, thread: ", thread + " group: " + thread.getThreadGroup());
-            Log.d("Tools, thread: ", Arrays.toString(thread.getStackTrace()));
-            Log.d("Tools, thread: ", String.valueOf(thread.getState()));
-            try {
-                thread.setPriority(priority);
-            }catch (Exception e) {
-                Log.e("Tools: thread", "Failed to set priority", e);
-            }
-        }
-    }
 }
