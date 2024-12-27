@@ -2,8 +2,6 @@ package net.kdt.pojavlaunch.prefs.screens;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.hardware.Sensor;
-import android.hardware.SensorManager;
 import android.os.Bundle;
 
 import androidx.preference.PreferenceCategory;
@@ -89,7 +87,6 @@ public class LauncherPreferenceControlFragment extends LauncherPreferenceFragmen
         requirePreference("gyroInvertX").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
         requirePreference("gyroInvertY").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
         requirePreference("gyroSmoothing").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
-        requirePreference("_frag_changeKeyBindings").setVisible(!LauncherPreferences.PREF_DIRECT_CONTROLLER);
     }
 
 }

@@ -30,6 +30,7 @@ import net.kdt.pojavlaunch.customcontrols.ControlLayout;
 import net.kdt.pojavlaunch.customcontrols.gamepad.DefaultDataProvider;
 import net.kdt.pojavlaunch.customcontrols.gamepad.Gamepad;
 import net.kdt.pojavlaunch.customcontrols.gamepad.direct.DirectGamepad;
+import net.kdt.pojavlaunch.customcontrols.gamepad.direct.DirectGamepadEnableHandler;
 import net.kdt.pojavlaunch.customcontrols.mouse.AbstractTouchpad;
 import net.kdt.pojavlaunch.customcontrols.mouse.AndroidPointerCapture;
 import net.kdt.pojavlaunch.customcontrols.mouse.InGUIEventProcessor;
@@ -48,7 +49,7 @@ import fr.spse.gamepad_remapper.RemapperView;
 /**
  * Class dealing with showing minecraft surface and taking inputs to dispatch them to minecraft
  */
-public class MinecraftGLSurface extends View implements GrabListener {
+public class MinecraftGLSurface extends View implements GrabListener, DirectGamepadEnableHandler {
     /* Gamepad object for gamepad inputs, instantiated on need */
     private GamepadHandler mGamepadHandler;
     /* The RemapperView.Builder object allows you to set which buttons to remap */
@@ -90,6 +91,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
     public MinecraftGLSurface(Context context, AttributeSet attributeSet) {
         super(context, attributeSet);
         setFocusable(true);
+        CallbackBridge.setDirectGamepadEnableHandler(this);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.O)
@@ -205,7 +207,7 @@ public class MinecraftGLSurface extends View implements GrabListener {
     }
 
     private void createGamepad(View contextView, InputDevice inputDevice) {
-        if(LauncherPreferences.PREF_DIRECT_CONTROLLER) {
+        if(CallbackBridge.sGamepadDirectInput) {
             mGamepadHandler = new DirectGamepad();
         }else {
             mGamepadHandler = new Gamepad(contextView, inputDevice, DefaultDataProvider.INSTANCE, true);
@@ -409,6 +411,17 @@ public class MinecraftGLSurface extends View implements GrabListener {
             mCurrentTouchProcessor = pickEventProcessor(isGrabbing);
             mLastGrabState = isGrabbing;
         }
+    }
+
+    @Override
+    public void onDirectGamepadEnabled() {
+        post(()->{
+            if(mGamepadHandler != null && mGamepadHandler instanceof Gamepad) {
+                ((Gamepad)mGamepadHandler).removeSelf();
+            }
+            // Force gamepad recreation on next event
+            mGamepadHandler = null;
+        });
     }
 
     /** A small interface called when the listener is ready for the first time */

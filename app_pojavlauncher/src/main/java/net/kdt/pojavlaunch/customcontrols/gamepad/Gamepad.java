@@ -87,6 +87,8 @@ public class Gamepad implements GrabListener, GamepadHandler {
 
     private final GamepadDataProvider mMapProvider;
 
+    private boolean mRemoved = false;
+
     public Gamepad(View contextView, InputDevice inputDevice, GamepadDataProvider mapProvider, boolean showCursor){
         Settings.setDeadzoneScale(PREF_DEADZONE_SCALE);
 
@@ -95,7 +97,7 @@ public class Gamepad implements GrabListener, GamepadHandler {
             @Override
             public void doFrame(long frameTimeNanos) {
                 tick(frameTimeNanos);
-                mScreenChoreographer.postFrameCallback(this);
+                if(!mRemoved) mScreenChoreographer.postFrameCallback(this);
             }
         };
         mScreenChoreographer.postFrameCallback(frameCallback);
@@ -451,5 +453,11 @@ public class Gamepad implements GrabListener, GamepadHandler {
                 sendKeyPress(LwjglGlfwKeycode.GLFW_KEY_SPACE, CallbackBridge.getCurrentMods(), isKeyEventDown);
                 break;
         }
+    }
+    public void removeSelf() {
+        mRemoved = true;
+        mMapProvider.detachGrabListener(this);
+        ViewGroup viewGroup = (ViewGroup) mPointerImageView.getParent();
+        if(viewGroup != null) viewGroup.removeView(mPointerImageView);
     }
 }

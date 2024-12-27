@@ -1211,6 +1211,7 @@ public class GLFW
 
     public static boolean glfwJoystickPresent(int jid) {
         if(jid == GLFW_JOYSTICK_1) {
+            CallbackBridge.enableGamepadDirectInput();
             return true;
         }else return false;
     }

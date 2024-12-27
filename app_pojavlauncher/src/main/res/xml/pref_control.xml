@@ -144,13 +144,7 @@
     <PreferenceCategory
         android:title="@string/preference_category_controller_settings"
         >
-        <SwitchPreference
-            android:key="directController"
-            android:title="@string/preference_direct_controller_title"
-            android:summary="@string/preference_direct_controller_description"
-            />
         <Preference
-            android:key="_frag_changeKeyBindings"
             android:title="@string/preference_remap_controller_title"
             android:summary="@string/preference_remap_controller_description"
             android:fragment="net.kdt.pojavlaunch.fragments.GamepadMapperFragment"/>

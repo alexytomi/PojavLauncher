@@ -1,6 +1,8 @@
 package org.lwjgl.glfw;
 
 import net.kdt.pojavlaunch.*;
+import net.kdt.pojavlaunch.customcontrols.gamepad.direct.DirectGamepadEnableHandler;
+
 import android.content.*;
 import android.util.Log;
 import android.view.Choreographer;
@@ -8,6 +10,7 @@ import android.view.Choreographer;
 import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
+import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
@@ -19,6 +22,7 @@ public class CallbackBridge {
     public static final Choreographer sChoreographer = Choreographer.getInstance();
     private static boolean isGrabbing = false;
     private static final ArrayList<GrabListener> grabListeners = new ArrayList<>();
+    private static WeakReference<DirectGamepadEnableHandler> sDirectGamepadEnableHandler;
     
     public static final int CLIPBOARD_COPY = 2000;
     public static final int CLIPBOARD_PASTE = 2001;
@@ -32,6 +36,7 @@ public class CallbackBridge {
 
     public static final ByteBuffer sGamepadButtonBuffer;
     public static final FloatBuffer sGamepadAxisBuffer;
+    public static boolean sGamepadDirectInput = false;
 
     public static void putMouseEventWithCoords(int button, float x, float y) {
         putMouseEventWithCoords(button, true, x, y);
@@ -174,6 +179,16 @@ public class CallbackBridge {
     //Called from JRE side
     @SuppressWarnings("unused")
     @Keep
+    private static void onDirectInputEnable() {
+        Log.i("CallbackBridge", "onDirectInputEnable()");
+        DirectGamepadEnableHandler enableHandler = Tools.getWeakReference(sDirectGamepadEnableHandler);
+        if(enableHandler != null) enableHandler.onDirectGamepadEnabled();
+        sGamepadDirectInput = true;
+    }
+
+    //Called from JRE side
+    @SuppressWarnings("unused")
+    @Keep
     private static void onGrabStateChanged(final boolean grabbing) {
         isGrabbing = grabbing;
         sChoreographer.postFrameCallbackDelayed((time) -> {
@@ -199,10 +214,15 @@ public class CallbackBridge {
             grabListeners.remove(listener);
         }
     }
+
     public static FloatBuffer createGamepadAxisBuffer() {
         ByteBuffer axisByteBuffer = nativeCreateGamepadAxisBuffer();
         // NOTE: hardcoded order (also in jre_lwjgl3glfw CallbackBridge)
         return axisByteBuffer.order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer();
+    }
+
+    public static void setDirectGamepadEnableHandler(DirectGamepadEnableHandler h) {
+        sDirectGamepadEnableHandler = new WeakReference<>(h);
     }
 
     @Keep @CriticalNative public static native void nativeSetUseInputStackQueue(boolean useInputStackQueue);
