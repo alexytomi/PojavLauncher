@@ -13,6 +13,7 @@ import javax.annotation.*;
 
 import org.lwjgl.*;
 import org.lwjgl.system.*;
+import org.lwjgl.system.MemoryUtil;
 
 import static org.lwjgl.opengl.GL20.*;
 import static org.lwjgl.system.APIUtil.*;
@@ -24,8 +25,9 @@ import java.util.*;
 
 public class GLFW
 {
-    static FloatBuffer joystickData = (FloatBuffer)FloatBuffer.allocate(8).flip();
-    static ByteBuffer buttonData = (ByteBuffer)ByteBuffer.allocate(8).flip();
+    static FloatBuffer joystickAxisData;
+    static ByteBuffer joystickButtonData;
+    static ByteBuffer empty = (ByteBuffer)ByteBuffer.allocate(0);
     /** The major version number of the GLFW library. This is incremented when the API is changed in non-compatible ways. */
     public static final int GLFW_VERSION_MAJOR = 3;
 
@@ -515,6 +517,7 @@ public class GLFW
     private static final String PROP_WINDOW_WIDTH = "glfwstub.windowWidth";
     private static final String PROP_WINDOW_HEIGHT= "glfwstub.windowHeight";
     public static long mainContext = 0;
+    private static long gamepadDataPointer;
 
     static {
         try {
@@ -635,6 +638,8 @@ public class GLFW
         }
         return win;
     }
+
+    private static native long internalGetGamepadDataPointer();
 
     // Generated stub callback methods
     public static GLFWCharCallback glfwSetCharCallback(@NativeType("GLFWwindow *") long window, @Nullable @NativeType("GLFWcharfun") GLFWCharCallbackI cbfun) {
@@ -805,6 +810,10 @@ public class GLFW
             mGLFWInitialTime = (double) System.nanoTime();
             long __functionAddress = Functions.Init;
             isGLFWReady = invokeI(__functionAddress) != 0;
+            gamepadDataPointer = internalGetGamepadDataPointer();
+            // NOTE: hardcoded order (also in android CallbackBridge)
+            joystickAxisData = CallbackBridge.nativeCreateGamepadAxisBuffer().order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer();
+            joystickButtonData = CallbackBridge.nativeCreateGamepadButtonBuffer();
         }
         return isGLFWReady;
     }
@@ -1201,50 +1210,59 @@ public class GLFW
     }
 
     public static boolean glfwJoystickPresent(int jid) {
-        if(jid == 0) {
+        if(jid == GLFW_JOYSTICK_1) {
             return true;
         }else return false;
     }
     public static String glfwGetJoystickName(int jid) {
-        if(jid == 0) {
-            return "AIC event bus controller";
+        if(jid == GLFW_JOYSTICK_1) {
+            return "Pojav XBOX 360 compatible gamepad";
         }else return null;
     }
     public static FloatBuffer glfwGetJoystickAxes(int jid) {
-        if(jid == 0) {
-            return joystickData;
+        if(jid == GLFW_JOYSTICK_1) {
+            return joystickAxisData;
         }else return null;
     }
     public static ByteBuffer glfwGetJoystickButtons(int jid) {
-        if(jid == 0) {
-            return buttonData;
+        if(jid == GLFW_JOYSTICK_1) {
+            return joystickButtonData;
         }else return null;
     }
-    public static ByteBuffer glfwGetjoystickHats(int jid) {
-        return null;
+    public static ByteBuffer glfwGetJoystickHats(int jid) {
+        if(jid == GLFW_JOYSTICK_1) {
+            return empty; // Maybe implement this later?
+        }else return null;
     }
     public static boolean glfwJoystickIsGamepad(int jid) {
-        if(jid == 0) return true;
+        if(jid == GLFW_JOYSTICK_1) return true;
         else return false;
     }
     public static String glfwGetJoystickGUID(int jid) {
-        if(jid == 0) return "aio0";
+        // 16 8-bit characters to be compatible with SDL_GUID
+        if(jid == GLFW_JOYSTICK_1) return "AAAAAAAAAAAAAAAA";
         else return null;
     }
+
+    private static long mUserPointer;
+
     public static long glfwGetJoystickUserPointer(int jid) {
-        return 0;
+        return mUserPointer;
     }
     public static void glfwSetJoystickUserPointer(int jid, long pointer) {
-
+        mUserPointer = pointer;
     }
     public static boolean glfwUpdateGamepadMappings(ByteBuffer string) {
         return false;
     }
     public static String glfwGetGamepadName(int jid) {
-        return null;
+        if(jid == GLFW_JOYSTICK_1) return "Pojav XBOX 360 compatible gamepad";
+        else return null;
     }
     public static boolean glfwGetGamepadState(int jid, GLFWGamepadState state) {
-        return false;
+        if(jid != 0) return false;
+        MemoryUtil.memCopy(gamepadDataPointer, state.address(), state.sizeof());
+        return true;
     }
 
     /** Array version of: {@link #glfwGetVersion GetVersion} */

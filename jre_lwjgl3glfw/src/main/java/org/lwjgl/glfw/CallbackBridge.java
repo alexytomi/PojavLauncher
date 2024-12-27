@@ -1,4 +1,5 @@
 package org.lwjgl.glfw;
+import java.nio.ByteBuffer;
 import java.util.*;
 
 public class CallbackBridge {
@@ -47,5 +48,7 @@ public class CallbackBridge {
     public static native boolean nativeSetInputReady(boolean ready);
     public static native String nativeClipboard(int action, byte[] copy);
     public static native void nativeSetGrabbing(boolean grab);
+    public static native ByteBuffer nativeCreateGamepadButtonBuffer();
+    public static native ByteBuffer nativeCreateGamepadAxisBuffer();
 }
 

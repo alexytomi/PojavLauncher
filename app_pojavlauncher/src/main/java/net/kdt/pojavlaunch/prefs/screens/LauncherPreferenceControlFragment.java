@@ -89,6 +89,7 @@ public class LauncherPreferenceControlFragment extends LauncherPreferenceFragmen
         requirePreference("gyroInvertX").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
         requirePreference("gyroInvertY").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
         requirePreference("gyroSmoothing").setVisible(LauncherPreferences.PREF_ENABLE_GYRO);
+        requirePreference("_frag_changeKeyBindings").setVisible(!LauncherPreferences.PREF_DIRECT_CONTROLLER);
     }
 
 }

@@ -8,6 +8,9 @@ import android.view.Choreographer;
 import androidx.annotation.Keep;
 import androidx.annotation.Nullable;
 
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
+import java.nio.FloatBuffer;
 import java.util.ArrayList;
 
 import dalvik.annotation.optimization.CriticalNative;
@@ -26,6 +29,9 @@ public class CallbackBridge {
     public static float mouseX, mouseY;
     public volatile static boolean holdingAlt, holdingCapslock, holdingCtrl,
             holdingNumlock, holdingShift;
+
+    public static final ByteBuffer sGamepadButtonBuffer;
+    public static final FloatBuffer sGamepadAxisBuffer;
 
     public static void putMouseEventWithCoords(int button, float x, float y) {
         putMouseEventWithCoords(button, true, x, y);
@@ -193,6 +199,11 @@ public class CallbackBridge {
             grabListeners.remove(listener);
         }
     }
+    public static FloatBuffer createGamepadAxisBuffer() {
+        ByteBuffer axisByteBuffer = nativeCreateGamepadAxisBuffer();
+        // NOTE: hardcoded order (also in jre_lwjgl3glfw CallbackBridge)
+        return axisByteBuffer.order(ByteOrder.LITTLE_ENDIAN).asFloatBuffer();
+    }
 
     @Keep @CriticalNative public static native void nativeSetUseInputStackQueue(boolean useInputStackQueue);
 
@@ -206,8 +217,12 @@ public class CallbackBridge {
     @Keep @CriticalNative private static native void nativeSendScroll(double xoffset, double yoffset);
     @Keep @CriticalNative private static native void nativeSendScreenSize(int width, int height);
     public static native void nativeSetWindowAttrib(int attrib, int value);
+    private static native ByteBuffer nativeCreateGamepadButtonBuffer();
+    private static native ByteBuffer nativeCreateGamepadAxisBuffer();
     static {
         System.loadLibrary("pojavexec");
+        sGamepadButtonBuffer = nativeCreateGamepadButtonBuffer();
+        sGamepadAxisBuffer = createGamepadAxisBuffer();
     }
 }
 

@@ -40,9 +40,10 @@ jint JNI_OnLoad(JavaVM* vm, __attribute__((unused)) void* reserved) {
         //Save dalvik global JavaVM pointer
         pojav_environ->dalvikJavaVMPtr = vm;
         (*vm)->GetEnv(vm, (void**) &pojav_environ->dalvikJNIEnvPtr_ANDROID, JNI_VERSION_1_4);
-        pojav_environ->bridgeClazz = (*pojav_environ->dalvikJNIEnvPtr_ANDROID)->NewGlobalRef(pojav_environ->dalvikJNIEnvPtr_ANDROID,(*pojav_environ->dalvikJNIEnvPtr_ANDROID) ->FindClass(pojav_environ->dalvikJNIEnvPtr_ANDROID,"org/lwjgl/glfw/CallbackBridge"));
-        pojav_environ->method_accessAndroidClipboard = (*pojav_environ->dalvikJNIEnvPtr_ANDROID)->GetStaticMethodID(pojav_environ->dalvikJNIEnvPtr_ANDROID, pojav_environ->bridgeClazz, "accessAndroidClipboard", "(ILjava/lang/String;)Ljava/lang/String;");
-        pojav_environ->method_onGrabStateChanged = (*pojav_environ->dalvikJNIEnvPtr_ANDROID)->GetStaticMethodID(pojav_environ->dalvikJNIEnvPtr_ANDROID, pojav_environ->bridgeClazz, "onGrabStateChanged", "(Z)V");
+        JNIEnv *env = pojav_environ->dalvikJNIEnvPtr_ANDROID;
+        pojav_environ->bridgeClazz = (*env)->NewGlobalRef(env,(*env) ->FindClass(env,"org/lwjgl/glfw/CallbackBridge"));
+        pojav_environ->method_accessAndroidClipboard = (*env)->GetStaticMethodID(env, pojav_environ->bridgeClazz, "accessAndroidClipboard", "(ILjava/lang/String;)Ljava/lang/String;");
+        pojav_environ->method_onGrabStateChanged = (*env)->GetStaticMethodID(env, pojav_environ->bridgeClazz, "onGrabStateChanged", "(Z)V");
         pojav_environ->isUseStackQueueCall = JNI_FALSE;
     } else if (pojav_environ->dalvikJavaVMPtr != vm) {
         __android_log_print(ANDROID_LOG_INFO, "Native", "Saving JVM environ...");
@@ -643,4 +644,19 @@ static void registerFunctions(JNIEnv *env) {
                             bridge_class,
                             use_critical_cc ? critical_fcns : noncritical_fcns,
                             sizeof(critical_fcns)/sizeof(critical_fcns[0]));
+}
+
+JNIEXPORT jlong JNICALL
+Java_org_lwjgl_glfw_GLFW_internalGetGamepadDataPointer(JNIEnv *env, jclass clazz) {
+    return (jlong) &pojav_environ->gamepadState;
+}
+
+JNIEXPORT jobject JNICALL
+Java_org_lwjgl_glfw_CallbackBridge_nativeCreateGamepadButtonBuffer(JNIEnv *env, jclass clazz) {
+    return (*env)->NewDirectByteBuffer(env, &pojav_environ->gamepadState.buttons, sizeof(pojav_environ->gamepadState.buttons));
+}
+
+JNIEXPORT jobject JNICALL
+Java_org_lwjgl_glfw_CallbackBridge_nativeCreateGamepadAxisBuffer(JNIEnv *env, jclass clazz) {
+    return (*env)->NewDirectByteBuffer(env, &pojav_environ->gamepadState.axes, sizeof(pojav_environ->gamepadState.axes));
 }
