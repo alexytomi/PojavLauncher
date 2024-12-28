@@ -422,6 +422,4 @@
     <string name="local_login_bad_username_title">Unsuitable username</string>
     <string name="local_login_bad_username_text">The username must be between 3–16 characters long, and must only contain latin letters, arabic numerals and underscores.</string>
     <string name="quick_setting_title">Quick settings</string>
-    <string name="preference_direct_controller_title">Use direct controller input</string>
-    <string name="preference_direct_controller_description">Disables keyboard/mouse emulation and lets the game use gamepad inputs directly.</string>
 </resources>

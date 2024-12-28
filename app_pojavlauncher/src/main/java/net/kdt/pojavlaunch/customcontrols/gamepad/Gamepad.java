@@ -454,6 +454,11 @@ public class Gamepad implements GrabListener, GamepadHandler {
                 break;
         }
     }
+
+    /**
+     * Stops the Gamepad and removes all traces of the Gamepad from the view hierarchy.
+     * After this call, the Gamepad is not recoverable and a new one must be made.
+     */
     public void removeSelf() {
         mRemoved = true;
         mMapProvider.detachGrabListener(this);

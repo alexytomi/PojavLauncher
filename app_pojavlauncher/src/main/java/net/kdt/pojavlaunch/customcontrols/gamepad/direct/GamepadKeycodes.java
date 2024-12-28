@@ -3,7 +3,6 @@ package net.kdt.pojavlaunch.customcontrols.gamepad.direct;
 public class GamepadKeycodes {
     public static final byte GLFW_RELEASE = 0;
     public static final byte GLFW_PRESS = 1;
-    public static int NUM_KEYCODES = 0;
 
     public static final short GLFW_GAMEPAD_BUTTON_A = 0;
     public static final short GLFW_GAMEPAD_BUTTON_B = 1;

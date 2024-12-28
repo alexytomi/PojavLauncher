@@ -22,7 +22,8 @@ public class CallbackBridge {
     public static final Choreographer sChoreographer = Choreographer.getInstance();
     private static boolean isGrabbing = false;
     private static final ArrayList<GrabListener> grabListeners = new ArrayList<>();
-    private static WeakReference<DirectGamepadEnableHandler> sDirectGamepadEnableHandler;
+    // Use a weak reference here to avoid possibly statically referencing a Context.
+    private static @Nullable WeakReference<DirectGamepadEnableHandler> sDirectGamepadEnableHandler;
     
     public static final int CLIPBOARD_COPY = 2000;
     public static final int CLIPBOARD_PASTE = 2001;

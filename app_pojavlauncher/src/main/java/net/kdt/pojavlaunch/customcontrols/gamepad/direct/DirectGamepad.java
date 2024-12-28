@@ -1,11 +1,8 @@
 package net.kdt.pojavlaunch.customcontrols.gamepad.direct;
 
-import static android.view.MotionEvent.AXIS_HAT_X;
-import static android.view.MotionEvent.AXIS_HAT_Y;
 import static org.lwjgl.glfw.CallbackBridge.sGamepadAxisBuffer;
 import static org.lwjgl.glfw.CallbackBridge.sGamepadButtonBuffer;
 
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 
@@ -38,12 +35,19 @@ public class DirectGamepad implements GamepadHandler {
             case KeyEvent.KEYCODE_DPAD_DOWN: gKeycode = GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_DOWN; break;
             case KeyEvent.KEYCODE_DPAD_LEFT: gKeycode = GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_LEFT; break;
             case KeyEvent.KEYCODE_DPAD_RIGHT: gKeycode = GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_RIGHT; break;
-            case KeyEvent.KEYCODE_DPAD_CENTER: break; // TODO
+            case KeyEvent.KEYCODE_DPAD_CENTER:
+                // Behave the same way as the Gamepad here, as GLFW doesn't have a keycode
+                // for the dpad center.
+                sGamepadButtonBuffer.put(GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_UP, GamepadKeycodes.GLFW_RELEASE);
+                sGamepadButtonBuffer.put(GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_DOWN, GamepadKeycodes.GLFW_RELEASE);
+                sGamepadButtonBuffer.put(GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_LEFT, GamepadKeycodes.GLFW_RELEASE);
+                sGamepadButtonBuffer.put(GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_RIGHT, GamepadKeycodes.GLFW_RELEASE);
+                return;
             case MotionEvent.AXIS_X: gAxis = GamepadKeycodes.GLFW_GAMEPAD_AXIS_LEFT_X; break;
             case MotionEvent.AXIS_Y: gAxis = GamepadKeycodes.GLFW_GAMEPAD_AXIS_LEFT_Y; break;
             case MotionEvent.AXIS_Z: gAxis = GamepadKeycodes.GLFW_GAMEPAD_AXIS_RIGHT_X; break;
             case MotionEvent.AXIS_RZ: gAxis = GamepadKeycodes.GLFW_GAMEPAD_AXIS_RIGHT_Y; break;
-            case AXIS_HAT_X:
+            case MotionEvent.AXIS_HAT_X:
                 sGamepadButtonBuffer.put(
                         GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_LEFT,
                         value < -0.85 ? GamepadKeycodes.GLFW_PRESS : GamepadKeycodes.GLFW_RELEASE
@@ -53,7 +57,7 @@ public class DirectGamepad implements GamepadHandler {
                         value > 0.85 ? GamepadKeycodes.GLFW_PRESS : GamepadKeycodes.GLFW_RELEASE
                 );
                 return;
-            case AXIS_HAT_Y:
+            case MotionEvent.AXIS_HAT_Y:
                 sGamepadButtonBuffer.put(
                         GamepadKeycodes.GLFW_GAMEPAD_BUTTON_DPAD_UP,
                         value < -0.85 ? GamepadKeycodes.GLFW_PRESS : GamepadKeycodes.GLFW_RELEASE
