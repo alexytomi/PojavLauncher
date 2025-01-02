@@ -30,7 +30,7 @@ public class RightClickGesture extends ValidatorGesture {
     }
 
     @Override
-    protected int getCheckDuration() {
+    protected int getGestureDelay() {
         return 150;
     }
 

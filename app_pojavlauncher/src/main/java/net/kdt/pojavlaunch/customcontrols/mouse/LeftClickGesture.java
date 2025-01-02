@@ -28,7 +28,7 @@ public class LeftClickGesture extends ValidatorGesture {
     }
 
     @Override
-    protected int getCheckDuration() {
+    protected int getGestureDelay() {
         return LauncherPreferences.PREF_LONGPRESS_TRIGGER;
     }
 

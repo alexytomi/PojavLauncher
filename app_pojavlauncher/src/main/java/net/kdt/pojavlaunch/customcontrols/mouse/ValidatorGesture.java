@@ -25,7 +25,7 @@ public abstract class ValidatorGesture implements Runnable{
      */
     public final boolean submit() {
         if(mGestureActive) return false;
-        mHandler.postDelayed(this, getCheckDuration());
+        mHandler.postDelayed(this, getGestureDelay());
         mGestureActive = true;
         return true;
     }
@@ -55,10 +55,10 @@ public abstract class ValidatorGesture implements Runnable{
      * This method will be called during gesture submission to determine the gesture check duration.
      * @return the required gesture check duration in milliseconds
      */
-    protected abstract int getCheckDuration();
+    protected abstract int getGestureDelay();
 
     /**
-     * This method will be called after getCheckDuration() milliseconds, if the gesture was not cancelled.
+     * This method will be called after getGestureDelay() milliseconds, if the gesture was not cancelled.
      * @return false if you want to mark this gesture as "inactive"
      *         true otherwise
      */
