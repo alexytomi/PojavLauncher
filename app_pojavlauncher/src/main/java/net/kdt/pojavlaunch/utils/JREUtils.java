@@ -469,6 +469,7 @@ public class JREUtils {
             case "opengles3":
                 renderLibrary = "libgl4es_114.so"; break;
             case "vulkan_zink": renderLibrary = "libOSMesa.so"; break;
+            case "opengles_mobileglues": renderLibrary = "libmobileglues.so"; break;
             case "opengles3_ltw" : renderLibrary = "libltw.so"; break;
             default:
                 Log.w("RENDER_LIBRARY", "No renderer selected, defaulting to opengles2");
