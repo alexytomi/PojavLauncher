@@ -1,5 +1,7 @@
 package net.kdt.pojavlaunch.fragments;
 
+import static net.kdt.pojavlaunch.Tools.openPath;
+
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Build;
@@ -37,6 +39,7 @@ import net.kdt.pojavlaunch.value.launcherprofiles.LauncherProfiles;
 import net.kdt.pojavlaunch.value.launcherprofiles.MinecraftProfile;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -50,7 +53,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
     private String mProfileKey;
     private MinecraftProfile mTempProfile = null;
     private String mValueToConsume = "";
-    private Button mSaveButton, mDeleteButton, mControlSelectButton, mGameDirButton, mVersionSelectButton;
+    private Button mSaveButton, mDeleteButton, mControlSelectButton, mGameDirButton, mVersionSelectButton, mOpenDirectoryButton;
     private Spinner mDefaultRuntime, mDefaultRenderer;
     private EditText mDefaultName, mDefaultJvmArgument;
     private TextView mDefaultPath, mDefaultVersion, mDefaultControl;
@@ -123,6 +126,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
 
         // Set up the icon change click listener
         mProfileIcon.setOnClickListener(v -> CropperUtils.startCropper(mCropperLauncher));
+        mOpenDirectoryButton.setOnClickListener((v)-> openPath(v.getContext(), getCurrentProfileDirectory(), false));
 
         loadValues(LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, ""), view.getContext());
     }
@@ -224,7 +228,7 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         mDefaultRuntime = view.findViewById(R.id.vprof_editor_spinner_runtime);
         mDefaultRenderer = view.findViewById(R.id.vprof_editor_profile_renderer);
         mDefaultVersion = view.findViewById(R.id.vprof_editor_version_spinner);
-
+        mOpenDirectoryButton = view.findViewById(R.id.open_files_button);
         mDefaultPath = view.findViewById(R.id.vprof_editor_path);
         mDefaultName = view.findViewById(R.id.vprof_editor_profile_name);
         mDefaultJvmArgument = view.findViewById(R.id.vprof_editor_jre_args);
@@ -288,6 +292,14 @@ public class ProfileEditorFragment extends Fragment implements CropperUtils.Crop
         }
         String iconLine = new String(byteArrayOutputStream.toByteArray(), StandardCharsets.UTF_8);
         mTempProfile.icon = "data:image/webp;base64," + iconLine;
+    }
+    private File getCurrentProfileDirectory() {
+        String currentProfile = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, null);
+        if(!Tools.isValidString(currentProfile)) return new File(Tools.DIR_GAME_NEW);
+        LauncherProfiles.load();
+        MinecraftProfile profileObject = LauncherProfiles.mainProfileJson.profiles.get(currentProfile);
+        if(profileObject == null) return new File(Tools.DIR_GAME_NEW);
+        return Tools.getGameDirPath(profileObject);
     }
 
     @Override
