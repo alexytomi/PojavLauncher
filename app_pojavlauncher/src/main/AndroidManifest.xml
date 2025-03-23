@@ -133,4 +133,5 @@
     <queries>
         <package android:name="net.kdt.pojavlaunch.ffmpeg"/>
     </queries>
+  <uses-sdk tools:overrideLibrary="com.swung0x48.mobileglues"/>
 </manifest>
