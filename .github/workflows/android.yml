@@ -91,7 +91,7 @@ jobs:
       
       - name: Clone MobileGlues
          run: |
-          git clone "https://github.com/ItsWinterBush26/PojavLauncher/actions/runs/14082497941/job/39438450433"
+          git clone "https://github.com/ItsWinterBush26/MobileGlues.git"
       
       - name: Build Debug .apk
         run: |
