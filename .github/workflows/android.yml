@@ -89,6 +89,10 @@ jobs:
       - name: Remove JDK 11
         run: rm /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.26-4/x64
       
+      - name: Clone MobileGlues
+         run: |
+          git clone "https://github.com/ItsWinterBush26/PojavLauncher/actions/runs/14082497941/job/39438450433"
+      
       - name: Build Debug .apk
         run: |
           # Build the launcher
