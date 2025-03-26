@@ -90,8 +90,8 @@ jobs:
         run: rm /opt/hostedtoolcache/Java_Temurin-Hotspot_jdk/11.0.26-4/x64
       
       - name: Clone MobileGlues
-         run: |
-          git clone "https://github.com/ItsWinterBush26/MobileGlues.git"
+        run: |
+          git clone https://github.com/ItsWinterBush26/MobileGlues.git
       
       - name: Build Debug .apk
         run: |
