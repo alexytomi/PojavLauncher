@@ -86,16 +86,15 @@ jobs:
           gradle :app_pojavlauncher:bundleGplay
           mv app_pojavlauncher/build/outputs/bundle/gplay/app_pojavlauncher-gplay.aab out/app-gplay.aab
 
+      - name: Remove JDK 11
+        run: sudo apt remove --purge openjdk-11-jdk -y
+   
       - name: Set up JDK 8
         uses: actions/setup-java@v3
         with:
           distribution: 'temurin'
           java-version: '8'
-        run: |
-        export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
-        export PATH=$JAVA_HOME/bin:$PATH
-        java -version
-
+          
       - name: Build Debug .apk
         run: |
           # Build the launcher
