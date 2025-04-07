@@ -488,8 +488,11 @@ public class JREUtils {
                 renderLibrary = "libgl4es_114.so";
                 break;
         }
-
-        if (!dlopen(renderLibrary) && !dlopen(findInLdLibPath(renderLibrary))) {
+        
+        if (LOCAL_RENDERER.equals("opengles3_mges")) {
+             dlopen(NATIVE_LIB_DIR + "/libspirv-cross-c-shared.so");
+             dlopen(NATIVE_LIB_DIR + "/libshaderconv.so");
+        } else if (!dlopen(renderLibrary) && !dlopen(findInLdLibPath(renderLibrary))) {
             Log.e("RENDER_LIBRARY","Failed to load renderer " + renderLibrary + ". Falling back to GL4ES 1.1.4");
             LOCAL_RENDERER = "opengles2";
             renderLibrary = "libgl4es_114.so";
