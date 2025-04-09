@@ -466,4 +466,5 @@
     <string name="mg_option_multidraw_mode_drawelements">Forcing DrawElements</string>
     <string name="mg_option_ext_gl43">Enable incomplete OpenGL43 extension</string>
     <string name="mg_option_ext_cs">Enable incomplete ARB_compute_shader extension</string>
+    <string name="mg_option_glsl_cache_error_too_big">Error: Value too big. Setting to maximum possible value.</string>
 </resources>

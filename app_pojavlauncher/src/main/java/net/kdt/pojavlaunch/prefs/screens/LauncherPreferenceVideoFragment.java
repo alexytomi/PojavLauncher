@@ -18,6 +18,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
@@ -167,14 +168,8 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
                         currentCacheSize = Integer.parseInt(cacheSize);
                     } catch (NumberFormatException e) {
                         Log.e("MG maxGlslCacheSize", e.toString());
-
-                        // maxGlslCacheSize.setError(e.toString());
-                        maxGlslCacheSize.setError(getString(R.string.mg_option_glsl_cache_error_unexpected));
-                        return false;
-                    }
-
-                    if (currentCacheSize > 99999) {
-                        maxGlslCacheSize.setError(getString(R.string.mg_option_glsl_cache_error_invalid));
+                        Toast.makeText(getContext(),getString(R.string.mg_option_glsl_cache_error_too_big),Toast.LENGTH_SHORT).show();
+                        maxGlslCacheSize.setText("2147483647");
                         return false;
                     }
 
