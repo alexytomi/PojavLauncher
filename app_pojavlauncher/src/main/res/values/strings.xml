@@ -466,45 +466,4 @@
     <string name="mg_option_multidraw_mode_drawelements">Forcing DrawElements</string>
     <string name="mg_option_ext_gl43">Enable incomplete OpenGL43 extension</string>
     <string name="mg_option_ext_cs">Enable incomplete ARB_compute_shader extension</string>
-
-    <-- Download Modrinth-CurseForge --->
-    <string name="download_classify_mod">Download Mod</string>
-    <string name="download_classify_modpack">Download Modpack</string>
-    <string name="download_classify_resource_pack">Download Resource Pack</string>
-    <string name="download_classify_world">Download World</string>
-    <string name="download_classify_shader_pack">Download Shader Pack</string>
-    <string name="download_ui_install_local">Install from local</string>
-    <string name="download_ui_search">Search Name</string>
-    <string name="download_ui_mc_version">MC Version</string>
-    <string name="download_ui_platform">Search Platform</string>
-    <string name="download_ui_sort_by">Sort By</string>
-    <string name="download_ui_category">Category Filter</string>
-    <string name="download_ui_modloader">Mod Loader</string>
-    <string name="download_ui_sort_by_relevant">Relevance</string>
-    <string name="download_ui_sort_by_total_downloads">Total Downloads</string>
-    <string name="download_ui_sort_by_popularity">Popularity</string>
-    <string name="download_ui_sort_by_recently_created">Recently Created</string>
-    <string name="download_ui_sort_by_recently_updated">Recently Updated</string>
-    <string name="download_info_downloads">Downloads:</string>
-    <string name="download_info_author">Author:</string>
-    <string name="download_info_date">Creation Date:</string>
-    <string name="download_info_modloader">Compatible With:</string>
-    <string name="download_info_dependencies">Dependency Type:</string>
-    <string name="download_info_load_screenshot">Show Screenshot</string>
-    <string name="download_search_failed">Failed to search for resources!</string>
-    <string name="download_search_no_result">No related resources found!</string>
-    <string name="download_search_platform_not_supported">The current platform does not support downloading this type of resource, or does not support this category filter!</string>
-    <string name="download_install_custom_name">Custom File Name</string>
-    <string name="download_install_download_file">Downloading resource file (%.2fMB / %.2fMB, speed: %s/s)</string>
-    <string name="download_install_dependencies">%s has the following dependencies or incompatible mods</string>
-    <string name="download_install_dependencies_tip">Please download the required dependency mods as needed. Missing essential dependencies or installing incompatible mods may cause the game to fail to run!</string>
-    <string name="download_install_dependencies_required">Required</string>
-    <string name="download_install_dependencies_optional">Optional</string>
-    <string name="download_install_dependencies_incompatible">Incompatible</string>
-    <string name="download_install_dependencies_embedded">Embedded</string>
-    <string name="download_install_dependencies_tool">Tool</string>
-    <string name="download_install_dependencies_include">Includes</string>
-    <string name="download_install">Download %s</string>
-    <string name="download_install_is_adapt">Current version %s is available</string>
-    <string name="download_install_unpack_world_error">Unable to recognize file structure, automatic unpacking failed, please handle the file manually!</string>
 </resources>
