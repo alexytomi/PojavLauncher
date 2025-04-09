@@ -18,6 +18,8 @@ import com.kdt.ui.dialog.DraggableDialog;
 
 import net.kdt.pojavlaunch.R;
 
+import java.io.IOException;
+
 public class CustomDialog implements DraggableDialog.DialogInitializationListener {
     private final AlertDialog dialog;
     private final String[] items;
@@ -133,7 +135,13 @@ public class CustomDialog implements DraggableDialog.DialogInitializationListene
 
         confirmButton.setOnClickListener(v -> {
             boolean shouldDismiss = true;
-            if (confirmListener != null) shouldDismiss = confirmListener.onConfirm(customView);
+            if (confirmListener != null) {
+                try {
+                    shouldDismiss = confirmListener.onConfirm(customView);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            }
             if (shouldDismiss) dialog.dismiss();
         });
 
@@ -168,7 +176,7 @@ public class CustomDialog implements DraggableDialog.DialogInitializationListene
     }
 
     public interface OnConfirmListener {
-        boolean onConfirm(View view);
+        boolean onConfirm(View view) throws IOException;
     }
 
     public interface OnCancelListener {
