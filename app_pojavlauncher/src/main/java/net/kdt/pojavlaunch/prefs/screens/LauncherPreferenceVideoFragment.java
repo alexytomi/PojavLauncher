@@ -1,41 +1,37 @@
 package net.kdt.pojavlaunch.prefs.screens;
 
-import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_RENDERER;
 
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_RENDERER;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.net.Uri;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 
 import androidx.preference.ListPreference;
 import androidx.preference.SwitchPreference;
 import androidx.preference.SwitchPreferenceCompat;
 import androidx.preference.Preference;
-import android.text.InputFilter;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Switch;
-import android.widget.Toast;
 
-import net.kdt.pojavlaunch.PojavApplication;
 import net.kdt.pojavlaunch.R;
 import net.kdt.pojavlaunch.Tools;
 import net.kdt.pojavlaunch.prefs.CustomSeekBarPreference;
 import net.kdt.pojavlaunch.prefs.LauncherPreferences;
+import net.kdt.pojavlaunch.utils.FileUtils;
+
 import com.kdt.ui.dialog.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 /**
  * Fragment for any settings video related
@@ -100,7 +96,7 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
         computeVisibility();
     }
 
-    private void computeVisibility(){
+    private void computeVisibility() {
         requirePreference("force_vsync", SwitchPreferenceCompat.class)
                 .setVisible(LauncherPreferences.PREF_USE_ALTERNATE_SURFACE);
     }
@@ -160,7 +156,7 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
                 .setConfirmListener(R.string.alertdialog_done, customView -> {
                     String cacheSize = maxGlslCacheSize.getText().toString();
 
-                   if (cacheSize.isEmpty()) {
+                    if (cacheSize.isEmpty()) {
                         maxGlslCacheSize.setError(getString(R.string.global_error_field_empty));
                         return false;
 
@@ -183,8 +179,8 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
                     }
 
                     if (currentCacheSize <= 0 && currentCacheSize != -1) {
-                       maxGlslCacheSize.setError(getString(R.string.mg_option_glsl_cache_error_range));
-                       return false;
+                        maxGlslCacheSize.setError(getString(R.string.mg_option_glsl_cache_error_range));
+                        return false;
                     }
                     LauncherPreferences.MG_MULTIDRAWMODE_OPTION = Integer.toString(enableCompatibleMode.getSelectedItemPosition());
                     LauncherPreferences.MG_GLSL_CACHE_SIZE = cacheSize;
@@ -200,11 +196,37 @@ public class LauncherPreferenceVideoFragment extends LauncherPreferenceFragment 
                             .putString("mg_ext_gl43", LauncherPreferences.MG_EXT_GL43)
                             .putString("mg_ext_compute_shader", LauncherPreferences.MG_EXT_CS)
                             .apply();
+                    try {
+                        writeRendererSettings();
+                    } catch (Exception e) {
+                        throw new IOException(e);
+                    }
+
                     return true;
                 })
                 .setCancelListener(R.string.alertdialog_cancel, customView -> true)
                 .setDraggable(true)
                 .build()
                 .show();
+    }
+    private void writeRendererSettings() throws IOException {
+        Map<String, Integer> MGConfigMap = new LinkedHashMap<>();
+
+        MGConfigMap.put("enableAngle", Integer.parseInt(LauncherPreferences.MG_ANGLE_OPTION));
+        MGConfigMap.put("enableNoError", Integer.parseInt(LauncherPreferences.MG_NOERROR_OPTION));
+        MGConfigMap.put("enableExtGL43", Integer.parseInt(LauncherPreferences.MG_EXT_GL43));
+        MGConfigMap.put("enableExtComputeShader", Integer.parseInt(LauncherPreferences.MG_EXT_CS));
+        MGConfigMap.put("maxGlslCacheSize", Integer.parseInt(LauncherPreferences.MG_GLSL_CACHE_SIZE));
+        MGConfigMap.put("multidrawMode", Integer.parseInt(LauncherPreferences.MG_MULTIDRAWMODE_OPTION));
+
+        File configFile = new File(Tools.DIR_DATA + "/MobileGlues", "config.json");
+        FileUtils.ensureParentDirectory(configFile);
+        try {
+            Tools.write(configFile.getAbsolutePath(),Tools.GLOBAL_GSON.toJson(MGConfigMap));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
