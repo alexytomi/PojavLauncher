@@ -76,6 +76,7 @@ public class PojavApplication extends Application {
 												.concat("/x86");
 			}
 			AsyncAssetManager.unpackRuntime(getAssets());
+			LauncherPreferences.writeMGRendererSettings();
 		} catch (Throwable throwable) {
 			Intent ferrorIntent = new Intent(this, FatalErrorActivity.class);
 			ferrorIntent.putExtra("throwable", throwable);

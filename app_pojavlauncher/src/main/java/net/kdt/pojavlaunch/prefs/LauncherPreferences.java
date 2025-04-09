@@ -15,9 +15,13 @@ import android.util.Log;
 
 import net.kdt.pojavlaunch.*;
 import net.kdt.pojavlaunch.multirt.MultiRTUtils;
+import net.kdt.pojavlaunch.utils.FileUtils;
 import net.kdt.pojavlaunch.utils.JREUtils;
 
+import java.io.File;
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 public class LauncherPreferences {
     public static final String PREF_KEY_CURRENT_PROFILE = "currentProfile";
@@ -70,8 +74,8 @@ public class LauncherPreferences {
     public static boolean PREF_VSYNC_IN_ZINK = true;
 
    // MobileGlues Settings
-    public static String MG_GLSL_CACHE_SIZE = "256";
-    public static String MG_ANGLE_OPTION = "3";
+    public static String MG_GLSL_CACHE_SIZE;
+    public static String MG_ANGLE_OPTION = "2";
     public static String MG_NOERROR_OPTION = "0";
     public static String MG_EXT_GL43 = "0";
     public static String MG_EXT_CS = "0";
@@ -83,11 +87,11 @@ public class LauncherPreferences {
 
        // MobileGlues Settings
         MG_GLSL_CACHE_SIZE = DEFAULT_PREF.getString("mg_glsl_cache_size", "256");
-        MG_ANGLE_OPTION = DEFAULT_PREF.getString("mg_angle_option", "3");
+        MG_ANGLE_OPTION = DEFAULT_PREF.getString("mg_angle_option", "1");
         MG_NOERROR_OPTION = DEFAULT_PREF.getString("mg_noerror_option", "0");
         MG_EXT_GL43 = DEFAULT_PREF.getString("mg_ext_gl43", "0");
         MG_EXT_CS = DEFAULT_PREF.getString("mg_ext_compute_shader", "0");
-        MG_MULTIDRAWMODE_OPTION = DEFAULT_PREF.getString("mg_multidraw_mode", "2");
+        MG_MULTIDRAWMODE_OPTION = DEFAULT_PREF.getString("mg_multidraw_mode", "0");
 
 
         PREF_RENDERER = DEFAULT_PREF.getString("renderer", "opengles2");
@@ -231,5 +235,23 @@ public class LauncherPreferences {
             LauncherPreferences.PREF_NOTCH_SIZE = -1;
         }
         Tools.updateWindowSize(activity);
+    }
+    public static void writeMGRendererSettings() throws IOException {
+        Map<String, Object> MGConfigMap = new LinkedHashMap<>();
+        MGConfigMap.put("enableAngle", Integer.parseInt(MG_ANGLE_OPTION));
+        MGConfigMap.put("enableNoError", Integer.parseInt(MG_NOERROR_OPTION));
+        MGConfigMap.put("enableExtGL43", Integer.parseInt(MG_EXT_GL43));
+        MGConfigMap.put("enableExtComputeShader", Integer.parseInt(MG_EXT_CS));
+        MGConfigMap.put("maxGlslCacheSize", Long.parseLong(MG_GLSL_CACHE_SIZE));
+        MGConfigMap.put("multidrawMode", Integer.parseInt(MG_MULTIDRAWMODE_OPTION));
+        File configFile = new File(Tools.DIR_DATA + "/MobileGlues", "config.json");
+        FileUtils.ensureParentDirectory(configFile);
+        try {
+            Tools.write(configFile.getAbsolutePath(),Tools.GLOBAL_GSON.toJson(MGConfigMap));
+            Logger.appendToLog("Writing MG configs to " + configFile.getAbsolutePath());
+            Logger.appendToLog("MG Config is " + Tools.GLOBAL_GSON.toJson(MGConfigMap));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
