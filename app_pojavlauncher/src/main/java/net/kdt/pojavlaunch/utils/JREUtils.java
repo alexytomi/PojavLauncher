@@ -221,7 +221,7 @@ public class JREUtils {
             } else if(LOCAL_RENDERER.equals("opengles_mobileglues")) { // TODO: Needs refactoring
             envMap.put("LIBGL_ES", "3");
             envMap.put("POJAVEXEC_EGL","libmobileglues.so");
-            envMap.put("MG_DIR_PATH", Tools.DIR_DATA + "/MobileGlues");
+            envMap.put("MG_DIR_PATH", Tools.DIR_GAME_HOME + "/MobileGlues");
             envMap.put("MG_maxGlslCacheSize", MG_GLSL_CACHE_SIZE);
             envMap.put("MG_enableANGLE", MG_ANGLE_OPTION);
             envMap.put("MG_enableNoError", MG_NOERROR_OPTION);
