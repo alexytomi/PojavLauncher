@@ -244,7 +244,7 @@ public class LauncherPreferences {
         MGConfigMap.put("enableExtComputeShader", Integer.parseInt(MG_EXT_CS));
         MGConfigMap.put("maxGlslCacheSize", Long.parseLong(MG_GLSL_CACHE_SIZE));
         MGConfigMap.put("multidrawMode", Integer.parseInt(MG_MULTIDRAWMODE_OPTION));
-        File configFile = new File(Tools.DIR_DATA + "/MobileGlues", "config.json");
+        File configFile = new File(DIR_GAME_HOME + "/MobileGlues", "config.json");
         FileUtils.ensureParentDirectory(configFile);
         try {
             Tools.write(configFile.getAbsolutePath(),Tools.GLOBAL_GSON.toJson(MGConfigMap));
