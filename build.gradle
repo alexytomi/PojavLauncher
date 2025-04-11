@@ -4,7 +4,7 @@ plugins{
     id 'com.android.library' version '8.7.2' apply false
 }
 
-String getGitHash(String project) {
+static String getGitHash(String project) {
     def command = Runtime.getRuntime().exec("git rev-list -1 HEAD " + project)
     def returnCode = command.waitFor()
     if (returnCode != 0) {
@@ -14,7 +14,7 @@ String getGitHash(String project) {
     return gitCommitHash
 }
 
-Boolean gitUsed() {
+static Boolean gitUsed() {
     def returnCode = Runtime.getRuntime().exec("git rev-parse --is-inside-work-tree").waitFor()
     switch(returnCode){
         case 127:
