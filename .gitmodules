@@ -1,0 +1,12 @@
+[submodule "forceclose"]
+	path = forceclose
+  url = https://github.com/alexytomi/PojavLauncher.git
+  branch = origin/feat/force-close-button
+[submodule "submodule-rewrite"]
+	path = submodule-rewrite
+  url = https://github.com/alexytomi/PojavLauncher.git
+  branch = origin/feat/submodule-rewrite
+[submodule "mobileglues"]
+	path = mobileglues
+  url = https://github.com/alexytomi/PojavLauncher.git
+  branch = origin/feat/mobile_glues
