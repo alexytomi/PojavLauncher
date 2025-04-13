@@ -319,6 +319,7 @@ public class MinecraftDownloader {
         String downloadUrl = baseRepository + path;
         File targetPath = new File(Tools.DIR_HOME_LIBRARY, path);
         mDeclaredNatives.add(targetPath);
+        //TODO: Implement SHA1 verification by storing the hash in the apk
         scheduleDownload(targetPath, DownloadMirror.DOWNLOAD_CLASS_LIBRARIES, downloadUrl, null, 0, true);
     }
 
