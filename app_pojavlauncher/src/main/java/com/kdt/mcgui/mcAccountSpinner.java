@@ -9,7 +9,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -277,10 +276,6 @@ public class mcAccountSpinner extends AppCompatSpinner implements AdapterView.On
     }
 
     private void performLogin(MinecraftAccount minecraftAccount){
-        // Logging in when there's no internet is useless. This should really be turned into a network callback though.
-        if(!Tools.isOnline(getContext())){
-            return;
-        }
         if(minecraftAccount.isLocal()) return;
 
         mLoginBarPaint.setColor(getResources().getColor(R.color.minebutton_color));

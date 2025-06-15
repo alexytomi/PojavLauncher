@@ -21,8 +21,6 @@ import android.content.res.Resources;
 import android.database.Cursor;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -1429,18 +1427,6 @@ public final class Tools {
         DIR_HOME_LIBRARY = DIR_GAME_NEW + "/libraries";
         ASSETS_PATH = DIR_GAME_NEW + "/assets";
         OBSOLETE_RESOURCES_PATH = DIR_GAME_NEW + "/resources";
-    }
-
-    private static NetworkInfo getActiveNetworkInfo(Context ctx) {
-        ConnectivityManager connMgr = (ConnectivityManager) ctx.getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
-        return networkInfo; // This can return null when there is no wifi or data connected
-    }
-
-    public static boolean isOnline(Context ctx) {
-        NetworkInfo info = getActiveNetworkInfo(ctx);
-        if(info == null) return false;
-        return (info.isConnected());
     }
 
     public static boolean isDemoProfile(Context ctx){
