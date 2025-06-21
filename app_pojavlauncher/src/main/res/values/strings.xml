@@ -438,12 +438,26 @@
     <string name="preference_renderer_mobileglues_settings">MobileGlues Renderer Settings</string>
     <string name="mg_renderer_glsl_cache">Max GLSL cache size</string>
     <string name="mg_renderer_angle">Use ANGLE as driver</string>
+    <string name="mg_renderer_angle_disable_if_possible">Disable if possible</string>
+    <string name="mg_renderer_angle_enable_if_possible">Enable if possible</string>
+    <string name="mg_renderer_angle_disable_forced">Disable</string>
+    <string name="mg_renderer_angle_enable_forced">Enable</string>
+    <string name="mg_renderer_multidraw_auto">Auto</string>
     <string name="mg_renderer_multidraw">Multidraw emulation mode</string>
+    <string name="mg_renderer_multidraw_prefer_indirect">Prefer Indirect</string>
+    <string name="mg_renderer_multidraw_prefer_basevertex">Prefer BaseVertex</string>
+    <string name="mg_renderer_multidraw_prefer_multidraw">Prefer MultiDraw Indirect</string>
+    <string name="mg_renderer_multidraw_force_drawelements">Force DrawElements</string>
+    <string name="mg_renderer_title_errorSetting">Error Filtering</string>
+    <string name="mg_renderer_errorSetting_auto">Auto</string>
+    <string name="mg_renderer_errorSetting_dont_ignore">Dont\'t ignore</string>
+    <string name="mg_renderer_errorSetting_ignore_shader_program">Ignore shader and program errors</string>
+    <string name="mg_renderer_errorSetting_ignore_shader_program_framebuffer">Ignore shader, program and framebuffer errors</string>
     <string name="mg_renderer_title_gl43exts">Advertise Experimental OpenGL 4.3 extensions</string>
     <string name="mg_renderer_summary_gl43exts">May help with mod crashes. Disable if not needed, can cause crashes.</string>
     <string name="mg_renderer_title_computeShaderext">Advertise Experimental Compute Shader extension</string>
     <string name="mg_renderer_summary_computeShaderext">May help with shaderpack glitches. Disable if not needed, can cause crashes.</string>
-    <string name="mg_renderer_title_errorSetting">Error Filtering</string>
+
     <string name="app_short_name">Amethyst</string>
     <string name="demo_versions_supported">Only Vanilla 1.3.1 and above are supported on demo accounts</string>
     <string name="demo_unsupported">Demo Profile not supported</string>

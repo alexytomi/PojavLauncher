@@ -49,12 +49,11 @@
         <item>default</item>
         <item>bmclapi</item>
     </string-array>
-    <!--TODO: Make this translatable-->
     <string-array name="mg_renderer_names_angle">
-        <item>Disable if possible</item>
-        <item>Enable if possible</item>
-        <item>Disabled</item>
-        <item>Enabled</item>
+        <item>@string/mg_renderer_angle_disable_if_possible</item>
+        <item>@string/mg_renderer_angle_enable_if_possible</item>
+        <item>@string/mg_renderer_angle_disable_forced</item>
+        <item>@string/mg_renderer_angle_enable_forced</item>
     </string-array>
     <string-array name="mg_renderer_values_angle">
         <item>0</item>
@@ -62,13 +61,12 @@
         <item>2</item>
         <item>3</item>
     </string-array>
-    <!--TODO: Make this translatable-->
     <string-array name="mg_renderer_names_multidraw">
-        <item>Auto</item>
-        <item>Prefer Indirect</item>
-        <item>Prefer BaseVertex</item>
-        <item>Prefer MultiDraw Indirect</item>
-        <item>Force DrawElements</item>
+        <item>@string/mg_renderer_multidraw_auto</item>
+        <item>@string/mg_renderer_multidraw_prefer_indirect</item>
+        <item>@string/mg_renderer_multidraw_prefer_basevertex</item>
+        <item>@string/mg_renderer_multidraw_prefer_multidraw</item>
+        <item>@string/mg_renderer_multidraw_force_drawelements</item>
     </string-array>
     <string-array name="mg_renderer_values_multidraw">
         <item>0</item>
@@ -78,10 +76,10 @@
         <item>4</item>
     </string-array>
     <string-array name="mg_renderer_names_errorSetting">
-        <item>Auto</item>
-        <item>Don\'t ignore</item>
-        <item>Ignore shader/program errors</item>
-        <item>Ignore shader/program/framebuffer errors</item>
+        <item>@string/mg_renderer_errorSetting_auto</item>
+        <item>@string/mg_renderer_errorSetting_dont_ignore</item>
+        <item>@string/mg_renderer_errorSetting_ignore_shader_program</item>
+        <item>@string/mg_renderer_errorSetting_ignore_shader_program_framebuffer</item>
     </string-array>
     <string-array name="mg_renderer_values_errorSetting">
         <item>0</item>
