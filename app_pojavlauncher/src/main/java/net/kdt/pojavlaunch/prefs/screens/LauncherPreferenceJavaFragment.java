@@ -31,6 +31,7 @@ public class LauncherPreferenceJavaFragment extends LauncherPreferenceFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mSwitchAutoJRE = findPreference("disable_autojre_select");
+        // TODO: i18n
         mSwitchAutoJRE.setSummary("Stops automatic selection of which runtime to use in \"" + getString(R.string.main_install_jar_file) + "\"");
 
     }

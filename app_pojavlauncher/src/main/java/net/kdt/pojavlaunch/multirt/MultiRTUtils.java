@@ -38,6 +38,7 @@ public class MultiRTUtils {
 
     public static List<Runtime> getRuntimes() {
         if(!RUNTIME_FOLDER.exists() && !RUNTIME_FOLDER.mkdirs()) {
+            // TODO: i18n
             throw new RuntimeException("Failed to create runtime directory");
         }
 
@@ -45,7 +46,7 @@ public class MultiRTUtils {
         File[] files = RUNTIME_FOLDER.listFiles();
         if(files != null) for(File f : files) {
             runtimes.add(read(f.getName()));
-        }
+        }// TODO: i18n
         else throw new RuntimeException("The runtime directory does not exist");
 
         return runtimes;

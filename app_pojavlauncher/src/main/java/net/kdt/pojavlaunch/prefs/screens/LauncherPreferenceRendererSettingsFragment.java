@@ -41,6 +41,7 @@ public class LauncherPreferenceRendererSettingsFragment extends LauncherPreferen
                         editText.setText("0");
                     }
                     if (Long.parseLong(editText.getText().toString()) > Integer.MAX_VALUE){
+                        // TODO: i18n
                         editText.setError("Too big! Setting to maximum value");
                         editText.setText(String.valueOf(Integer.MAX_VALUE));
                     }

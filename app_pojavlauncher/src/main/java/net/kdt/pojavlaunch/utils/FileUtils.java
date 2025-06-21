@@ -64,6 +64,7 @@ public class FileUtils {
      * @throws IOException when the checks fail
      */
     public static void ensureDirectory(File targetFile) throws IOException{
+        // TODO: i18n
         if(targetFile.isFile()) throw new IOException("Target directory is a file");
         if(targetFile.exists()) {
             if(!targetFile.canWrite()) throw new IOException("Target directory is not writable");
@@ -76,7 +77,7 @@ public class FileUtils {
      * @throws IOException when the checks fail
      */
     public static void ensureParentDirectory(File targetFile) throws IOException{
-        File parentFile = targetFile.getParentFile();
+        File parentFile = targetFile.getParentFile();// TODO: i18n
         if(parentFile == null) throw new IOException("targetFile does not have a parent");
         ensureDirectory(parentFile);
     }

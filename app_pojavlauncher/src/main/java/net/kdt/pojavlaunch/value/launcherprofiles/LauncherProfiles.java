@@ -55,7 +55,7 @@ public class LauncherProfiles {
     public static @NonNull MinecraftProfile getCurrentProfile() {
         if(mainProfileJson == null) LauncherProfiles.load();
         String defaultProfileName = LauncherPreferences.DEFAULT_PREF.getString(LauncherPreferences.PREF_KEY_CURRENT_PROFILE, "");
-        MinecraftProfile profile = mainProfileJson.profiles.get(defaultProfileName);
+        MinecraftProfile profile = mainProfileJson.profiles.get(defaultProfileName);// TODO: i18n
         if(profile == null) throw new RuntimeException("The current profile stopped existing :(");
         return profile;
     }

@@ -102,9 +102,10 @@ public class MinecraftDownloader {
                         // Ensure they're both not some 0 byte corrupted json
                         if (providedJsonFile.length() == 0 || vanillaJsonFile.exists() && vanillaJsonFile.length() == 0){
                             throw new RuntimeException("Minecraft "+versionMessage+ " is needed by " +realVersion); }
-
+                        // TODO: i18n
                         listener.onDownloadDone();
                     } catch (Exception e) {
+                        // TODO: i18n
                         String tryagain = !isOnline ? "Please ensure you have an internet connection" : "Please try again on your Microsoft Account";
                         Tools.showErrorRemote(versionMessage + " is not currently installed. "+ tryagain, e);
                     }
@@ -288,7 +289,7 @@ public class MinecraftDownloader {
         else versionJsonFile = createGameJsonPath(versionName);
         if(versionJsonFile.canRead())  {
             verInfo = Tools.GLOBAL_GSON.fromJson(Tools.read(versionJsonFile), JMinecraftVersionList.Version.class);
-        } else {
+        } else {// TODO: i18n
             throw new IOException("Unable to read Version JSON for version " + versionName);
         }
 
