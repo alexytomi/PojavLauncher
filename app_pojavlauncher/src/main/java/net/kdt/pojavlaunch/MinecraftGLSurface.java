@@ -2,6 +2,7 @@ package net.kdt.pojavlaunch;
 
 import static net.kdt.pojavlaunch.MainActivity.touchCharInput;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_MOUSE_GRAB_FORCE;
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_GAMEPAD_PASSTHRU;
 import static net.kdt.pojavlaunch.utils.MCOptionUtils.getMcScale;
 import static org.lwjgl.glfw.CallbackBridge.sendMouseButton;
 import static org.lwjgl.glfw.CallbackBridge.windowHeight;
@@ -232,7 +233,7 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
         int mouseCursorIndex = -1;
 
-        if(Gamepad.isGamepadEvent(event)){
+        if(Gamepad.isGamepadEvent(event) && !PREF_GAMEPAD_PASSTHRU){
             if(mGamepadHandler == null) createGamepad(this, event.getDevice());
 
             mInputManager.handleMotionEventInput(getContext(), event, mGamepadHandler);
@@ -249,6 +250,7 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
 
         // Make sure we grabbed the mouse if necessary
         updateGrabState(CallbackBridge.isGrabbing());
+
         switch(event.getActionMasked()) {
             case MotionEvent.ACTION_HOVER_MOVE:
             case MotionEvent.ACTION_MOVE:
@@ -270,6 +272,9 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
 
     /** The event for keyboard/ gamepad button inputs */
     public boolean processKeyEvent(KeyEvent event) {
+        if (PREF_GAMEPAD_PASSTHRU) {
+            return false;
+        }
         //Log.i("KeyEvent", event.toString());
 
         //Filtering useless events by order of probability

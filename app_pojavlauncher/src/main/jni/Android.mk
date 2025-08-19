@@ -8,6 +8,8 @@ HERE_PATH := $(LOCAL_PATH)
 
 LOCAL_PATH := $(HERE_PATH)
 
+$(call import-add-path,/out)
+$(call import-module,prefab/SDL3)
 $(call import-module,prefab/bytehook)
 LOCAL_PATH := $(HERE_PATH)
 
