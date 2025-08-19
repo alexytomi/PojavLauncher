@@ -220,9 +220,9 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
     private void createGamepad(View contextView, InputDevice inputDevice) {
         if(CallbackBridge.sGamepadDirectInput) {
             mGamepadHandler = new DirectGamepad();
-        }else {
+        }else if(!PREF_GAMEPAD_PASSTHRU) {
             mGamepadHandler = new Gamepad(contextView, inputDevice, DefaultDataProvider.INSTANCE, true);
-        }
+        }else mGamepadHandler = (code, value) -> {}; // Ensure it isn't null while also not processing the events.
     }
 
     /**
@@ -233,7 +233,7 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
     public boolean dispatchGenericMotionEvent(MotionEvent event) {
         int mouseCursorIndex = -1;
 
-        if(Gamepad.isGamepadEvent(event) && !PREF_GAMEPAD_PASSTHRU){
+        if(!PREF_GAMEPAD_PASSTHRU && Gamepad.isGamepadEvent(event)){
             if(mGamepadHandler == null) createGamepad(this, event.getDevice());
 
             mInputManager.handleMotionEventInput(getContext(), event, mGamepadHandler);
@@ -272,9 +272,6 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
 
     /** The event for keyboard/ gamepad button inputs */
     public boolean processKeyEvent(KeyEvent event) {
-        if (PREF_GAMEPAD_PASSTHRU) {
-            return false;
-        }
         //Log.i("KeyEvent", event.toString());
 
         //Filtering useless events by order of probability
@@ -309,7 +306,7 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
             }
         }
 
-        if(Gamepad.isGamepadEvent(event)){
+        if(!PREF_GAMEPAD_PASSTHRU && Gamepad.isGamepadEvent(event)){
             if(mGamepadHandler == null) createGamepad(this, event.getDevice());
 
             mInputManager.handleKeyEventInput(getContext(), event, mGamepadHandler);

@@ -3,6 +3,7 @@ package net.kdt.pojavlaunch;
 import static net.kdt.pojavlaunch.Tools.currentDisplayMetrics;
 import static net.kdt.pojavlaunch.Tools.dialogForceClose;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_ENABLE_GYRO;
+import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_GAMEPAD_PASSTHRU;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_SUSTAINED_PERFORMANCE;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_USE_ALTERNATE_SURFACE;
 import static net.kdt.pojavlaunch.prefs.LauncherPreferences.PREF_VIRTUAL_MOUSE_START;
@@ -495,7 +496,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
 
     @Override
     public boolean dispatchKeyEvent(KeyEvent event) {
-        if (!sdlActivityComponent.dispatchKeyEvent(event)) {
+        if (PREF_GAMEPAD_PASSTHRU && !sdlActivityComponent.dispatchKeyEvent(event)) {
             return false;
         }
 
