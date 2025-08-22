@@ -169,7 +169,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     @Override
     public boolean onGenericMotionEvent(MotionEvent event) {
         try {
-          Log.i(TAG, "onGenericMotionEvent: " + event.getDevice().getName() + ": " + "x: " + event.getAxisValue(MotionEvent.AXIS_X) + " | y: " + event.getAxisValue(MotionEvent.AXIS_Y) + " | " + event.getDeviceId());
+          Logger.appendToLog("onGenericMotionEvent: " + event.getDevice().getName() + ": " + "x: " + event.getAxisValue(MotionEvent.AXIS_X) + " | y: " + event.getAxisValue(MotionEvent.AXIS_Y) + " | " + event.getDeviceId());
           } catch (NullPointerException ignored){Logger.appendToLog(event.toString());}
         try {
             Class<?> sdlActivityClass = Class.forName("org.libsdl.app.SDLActivityComponent");
@@ -536,7 +536,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
                 // This is part of androids shoving random garbage KeyEvents everywhere mitigation.
                 return true;
             try {
-              Log.i(TAG, "dispatchKeyEvent: " + event.getDevice().getName() + ": " + event.getAction() + " | " + event.getKeyCode()
+                Logger.appendToLog("dispatchKeyEvent: " + event.getDevice().getName() + ": " + event.getAction() + " | " + event.getKeyCode()
                     + " | " + event.getSource() + " | " + event.getScanCode()   );
             } catch (NullPointerException ignored)  {Logger.appendToLog(event.toString());}
             if (!sdlActivityComponent.dispatchKeyEvent(event)) return true;
