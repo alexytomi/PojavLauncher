@@ -8,9 +8,9 @@ HERE_PATH := $(LOCAL_PATH)
 
 LOCAL_PATH := $(HERE_PATH)
 
+include $(LOCAL_PATH)/SDL/Android.mk
 $(call import-module,prefab/bytehook)
 LOCAL_PATH := $(HERE_PATH)
-
 include $(CLEAR_VARS)
 # Link GLESv2 for test
 LOCAL_LDLIBS := -ldl -llog -landroid
@@ -36,7 +36,6 @@ LOCAL_SRC_FILES := \
     utils.c \
     stdio_is.c \
     driver_helper/nsbypass.c
-
 ifeq ($(TARGET_ARCH_ABI),arm64-v8a)
 LOCAL_CFLAGS += -DADRENO_POSSIBLE
 endif
