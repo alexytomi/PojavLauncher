@@ -46,9 +46,11 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := exithook
 LOCAL_LDLIBS := -ldl -llog
 LOCAL_SHARED_LIBRARIES := bytehook pojavexec
+LOCAL_C_INCLUDES += $(LOCAL_PATH)/SDL/include
 LOCAL_SRC_FILES := \
     native_hooks/exit_hook.c \
-    native_hooks/chmod_hook.c
+    native_hooks/chmod_hook.c \
+    native_hooks/dlopen_hook.c
 include $(BUILD_SHARED_LIBRARY)
 
 #ifeq ($(TARGET_ARCH_ABI),arm64-v8a)

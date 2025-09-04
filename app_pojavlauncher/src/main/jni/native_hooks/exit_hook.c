@@ -73,10 +73,11 @@ static bool init_hooks() {
     LOGE("Failed to load hook library: %s", dlerror());
     return false;
 }
-
+void register_dlopen_callbacks(JNIEnv *, jclass clazz);
 JNIEXPORT void JNICALL
 Java_net_kdt_pojavlaunch_utils_JREUtils_initializeHooks(JNIEnv *env, jclass clazz) {
     bool hooks_ready = init_hooks();
+    register_dlopen_callbacks(env, clazz);
     if(!hooks_ready) {
         LOGE("Failed to initialize native hooks!");
     }
