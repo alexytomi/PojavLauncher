@@ -112,7 +112,7 @@ public class MainActivity extends BaseActivity implements ControlButtonMenuListe
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (true) {
+        if (LauncherPreferences.PREF_GAMEPAD_SDL_PASSTHRU) {
             // SDL integration is here because android will send garbage keycodes for the purpose of
             // "old app compatibility" so every input gets duplicated and attached with a correlated
             // keycode like the O button on PS4 being KEYCODE_BACK = 4 or the X button being KEYCODE_SPACE
