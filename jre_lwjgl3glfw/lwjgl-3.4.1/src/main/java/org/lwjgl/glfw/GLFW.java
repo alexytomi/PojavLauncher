@@ -529,9 +529,10 @@ public class GLFW
     public static long mainContext = 0;
     private static long gamepadDataPointer;
 
+    private static native void nativeInitializeGLFWNativeBridge();
     static {
         try {
-            System.loadLibrary("pojavexec");
+            nativeInitializeGLFWNativeBridge();
         } catch (UnsatisfiedLinkError e) {
             e.printStackTrace();
         }
