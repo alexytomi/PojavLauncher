@@ -125,10 +125,10 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
             // TODO: Use a hook to load SDL logic depending on whether libSDL3.so is loaded.
             try {
                 Activity activity = (MainActivity) getContext();
-                SDLSurface surface = new SDLSurface(activity);
+                SDLSurface surfaceView = new SDLSurface(activity);
                 motionListener = SDLActivity.getMotionListener();
                 if (mNativeSurface == null) throw new IllegalStateException("Surface not yet loaded, can't set native surface for SDLSurface");
-                SDLActivity.externalInitialize(activity, surface, ((ViewGroup)getParent()), mNativeSurface);
+                SDLActivity.externalInitialize(activity, surfaceView, ((ViewGroup)getParent()), mNativeSurface);
                 if (LauncherPreferences.PREF_GAMEPAD_FORCEDSDL_PASSTHRU) Tools.SDL.initializeControllerSubsystems();
             } catch (UnsatisfiedLinkError ignored) {
                 // Ignore because if SDL.setupJNI(); fails, SDL wasn't loaded.
@@ -378,7 +378,10 @@ public class MinecraftGLSurface extends View implements GrabListener, DirectGame
             mInputManager.handleKeyEventInput(getContext(), event, mGamepadHandler);
             return true;
         }
-
+        SDLActivity.handleKeyEvent(this,
+                event.getKeyCode(),
+                event,
+                null);
         int index = EfficientAndroidLWJGLKeycode.getIndexByKey(eventKeycode);
         if(EfficientAndroidLWJGLKeycode.containsIndex(index)) {
             EfficientAndroidLWJGLKeycode.execKey(event, index);

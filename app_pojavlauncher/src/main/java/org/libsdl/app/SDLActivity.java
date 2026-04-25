@@ -22,6 +22,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.hardware.Sensor;
@@ -219,7 +220,7 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
 
     // Main components
     protected static Activity mSingleton;
-    protected static SDLSurface mSurface;
+    public static SDLSurface mSurface;
     protected static SDLDummyEdit mTextEdit;
     protected static ViewGroup mLayout;
     protected static SDLClipboardHandler mClipboardHandler;
@@ -356,10 +357,17 @@ public class SDLActivity extends Activity implements View.OnSystemUiVisibilityCh
         SDL.setupJNI(); // Implicitly loads SDLActivity
 
         mSingleton = singleton;
-        surface.setNativeSurface(nativeSurface);
+        SDLSurface.setNativeSurface(nativeSurface);
         mSurface = surface;
         mTextEdit = null;
-        mLayout = layout;
+        mSingleton.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        mLayout = new RelativeLayout(mSingleton);
+        layout.addView(mLayout);
+        mLayout.addView(mSurface);
+        mLayout.setVisibility(View.VISIBLE);
+        mSurface.setZOrderOnTop(true);
+        Log.d("getZ", "mSurface:"+mSurface.getZ());
+        Log.d("getZ", "mLayout:"+mLayout.getZ());
         SDL.setContext(singleton); // Important!! SDLClipboardHandler needs it.
         mClipboardHandler = new SDLClipboardHandler();
         mCursors = new Hashtable<Integer, PointerIcon>();

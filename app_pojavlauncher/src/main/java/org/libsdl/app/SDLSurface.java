@@ -61,9 +61,9 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
 
         scaleGestureDetector = new ScaleGestureDetector(context, this);
 
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-        requestFocus();
+        setFocusable(false);
+        setFocusableInTouchMode(false);
+//        requestFocus();
         setOnApplyWindowInsetsListener(this);
         setOnKeyListener(this);
         setOnTouchListener(this);
@@ -85,9 +85,9 @@ public class SDLSurface extends SurfaceView implements SurfaceHolder.Callback,
     }
 
     protected void handleResume() {
-        setFocusable(true);
-        setFocusableInTouchMode(true);
-        requestFocus();
+//        setFocusable(true);
+//        setFocusableInTouchMode(true);
+//        requestFocus();
         setOnApplyWindowInsetsListener(this);
         setOnKeyListener(this);
         setOnTouchListener(this);

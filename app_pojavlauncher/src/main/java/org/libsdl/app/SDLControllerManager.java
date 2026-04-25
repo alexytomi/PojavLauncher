@@ -30,6 +30,8 @@ import android.view.View;
 import net.kdt.pojavlaunch.MinecraftGLSurface;
 import net.kdt.pojavlaunch.customcontrols.gamepad.direct.DirectGamepadEnableHandler;
 
+import org.lwjgl.glfw.CallbackBridge;
+
 
 public class SDLControllerManager
 {
@@ -844,6 +846,7 @@ class SDLGenericMotionListener_API24 extends SDLGenericMotionListener_API14 {
 
     @Override
     boolean setRelativeMouseEnabled(boolean enabled) {
+        CallbackBridge.onGrabStateChanged(enabled);
         mRelativeModeEnabled = enabled;
         return true;
     }
